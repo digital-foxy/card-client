@@ -1,12 +1,12 @@
 package tracker
 
 import (
-	"github.com/r3dpixel/card-client/serv/scheme"
+	"github.com/r3dpixel/card-client/store/resource"
 )
 
 type Service interface {
-	Lock(cardID scheme.CardID)
-	Unlock(cardID scheme.CardID)
-	IsLocked(cardID scheme.CardID) bool
-	Locked() []scheme.CardID
+	Lock(rid resource.RID) error
+	Unlock(rid resource.RID)
+	IsLocked(rid resource.RID) bool
+	Locked() []resource.RID
 }

@@ -1,6 +1,9 @@
 package operation
 
-import "github.com/r3dpixel/toolkit/timestamp"
+import (
+	"github.com/r3dpixel/card-client/store/resource"
+	"github.com/r3dpixel/toolkit/timestamp"
+)
 
 type Action string
 
@@ -65,14 +68,14 @@ type UnifiedReport struct {
 }
 
 type UpdatePayload struct {
-	CardID      ResourceID
-	OperationID operation.ID
-	DataHeader
-	UpdateHeader
+	ResourceID  resource.RID
+	OperationID ID
+	resource.InfoData
+	resource.SyncData
 }
 
 type ExportPayload struct {
-	OperationID operation.ID
-	CardID      ResourceID
-	ExportHeader
+	OperationID ID
+	ResourceID  resource.RID
+	resource.ExportData
 }

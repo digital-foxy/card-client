@@ -4,7 +4,7 @@ import (
 	"slices"
 	"sync"
 
-	"github.com/r3dpixel/card-client/services/credentials"
+	"github.com/r3dpixel/card-client/credentials"
 	"github.com/r3dpixel/toolkit/cred"
 )
 

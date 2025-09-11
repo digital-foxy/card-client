@@ -3,23 +3,23 @@ package mutracker
 import (
 	"sync"
 
-	"github.com/r3dpixel/card-client/serv/scheme"
+	"github.com/r3dpixel/card-client/store/resource"
 )
 
 type Service struct {
 	mutex    sync.RWMutex
-	trackers map[scheme.CardID]*resourceMu
+	trackers map[resource.RID]*resourceMu
 }
 
 func NewService() *Service {
 	return &Service{
-		trackers: make(map[scheme.CardID]*resourceMu),
+		trackers: make(map[resource.RID]*resourceMu),
 	}
 }
 
-func (s *Service) LockItem(card scheme.CardID) {
+func (s *Service) LockItem(rid resource.RID) {
 	s.mutex.RLock()
-	state, exists := s.trackers[card]
+	state, exists := s.trackers[rid]
 	s.mutex.RUnlock()
 
 	if exists {
@@ -28,30 +28,30 @@ func (s *Service) LockItem(card scheme.CardID) {
 	}
 
 	s.mutex.Lock()
-	state, exists = s.trackers[card]
+	state, exists = s.trackers[rid]
 	if !exists {
 		state = newResourceMutex()
-		s.trackers[card] = state
+		s.trackers[rid] = state
 	}
 	s.mutex.Unlock()
 
 	state.lock()
 }
 
-func (s *Service) UnlockItem(card scheme.CardID) {
+func (s *Service) UnlockItem(rid resource.RID) {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
 
-	if state, exists := s.trackers[card]; exists {
+	if state, exists := s.trackers[rid]; exists {
 		state.unlock()
 	}
 }
 
-func (s *Service) IsItemLocked(card scheme.CardID) bool {
+func (s *Service) IsItemLocked(rid resource.RID) bool {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
 
-	state, exists := s.trackers[card]
+	state, exists := s.trackers[rid]
 	if !exists {
 		return false
 	}
@@ -59,11 +59,11 @@ func (s *Service) IsItemLocked(card scheme.CardID) bool {
 	return state.isLocked()
 }
 
-func (s *Service) LockedItems() []scheme.CardID {
+func (s *Service) LockedItems() []resource.RID {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
 
-	var locked []scheme.CardID
+	var locked []resource.RID
 	for cardID, state := range s.trackers {
 		if state.isLocked() {
 			locked = append(locked, cardID)

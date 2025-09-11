@@ -5,7 +5,7 @@ import (
 	"sync"
 
 	"github.com/r3dpixel/card-client/opts"
-	"github.com/r3dpixel/card-client/services/preferences"
+	"github.com/r3dpixel/card-client/preferences"
 	"github.com/r3dpixel/toolkit/stringsx"
 	"github.com/r3dpixel/toolkit/trace"
 	"github.com/rs/zerolog/log"

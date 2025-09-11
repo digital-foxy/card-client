@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/r3dpixel/card-client/opts"
-	"github.com/r3dpixel/card-client/services/preferences"
+	"github.com/r3dpixel/card-client/preferences"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -46,8 +46,8 @@ func TestNewService_Initialization(t *testing.T) {
 		_, err = os.Stat(configPath)
 		assert.NoError(t, err)
 
-		assert.NotEmpty(t, s.GetString(preferences.ExportPathKey.ID))
-		assert.Empty(t, s.GetString(preferences.LastLoadedVaultKey.ID))
+		assert.NotEmpty(t, s.GetString(preferences.ExportPathKey))
+		assert.Empty(t, s.GetString(preferences.LastLoadedVaultKey))
 	})
 
 	t.Run("Loads values from an existing config file", func(t *testing.T) {
@@ -58,8 +58,8 @@ func TestNewService_Initialization(t *testing.T) {
 
 		s := NewService(opts.PreferencesOptions{FilePath: "my-prefs", FileType: "json"})
 
-		assert.Equal(t, "/custom/path", s.GetString(preferences.ExportPathKey.ID))
-		assert.Equal(t, "my-vault", s.GetString(preferences.LastLoadedVaultKey.ID))
+		assert.Equal(t, "/custom/path", s.GetString(preferences.ExportPathKey))
+		assert.Equal(t, "my-vault", s.GetString(preferences.LastLoadedVaultKey))
 	})
 }
 
@@ -67,14 +67,17 @@ func TestService_GettersAndSetters(t *testing.T) {
 	setupTestDirectory(t)
 	s := NewService(opts.PreferencesOptions{FileType: "json"})
 
-	s.Set("generic_key", "generic_value")
-	assert.Equal(t, "generic_value", s.Get("generic_key"))
+	genericKey := preferences.Key{ID: "generic_key"}
+	s.Set(genericKey, "generic_value")
+	assert.Equal(t, "generic_value", s.Get(genericKey))
 
-	s.SetString("string_key", "string_value")
-	assert.Equal(t, "string_value", s.GetString("string_key"))
+	stringKey := preferences.Key{ID: "string_key"}
+	s.SetString(stringKey, "string_value")
+	assert.Equal(t, "string_value", s.GetString(stringKey))
 
-	s.SetInt("int_key", 123)
-	assert.Equal(t, 123, s.GetInt("int_key"))
+	intKey := preferences.Key{ID: "int_key"}
+	s.SetInt(intKey, 123)
+	assert.Equal(t, 123, s.GetInt(intKey))
 
 	newData := map[string]any{
 		"new_string":                 "hello",
@@ -94,12 +97,11 @@ func TestService_KeysAndRegisterKey(t *testing.T) {
 	s := NewService(opts.PreferencesOptions{FileType: "json"})
 	initialKeyCount := len(s.Keys())
 
-	newKey := preferences.Key{ID: "new_key", Name: "New Key", ValueType: preferences.IntegerValue}
-	defaultValue := 999
-	s.RegisterKey(newKey, defaultValue)
+	newKey := preferences.Key{ID: "new_key", Name: "New Key", ValueType: preferences.IntegerValue, DefaultValue: 999}
+	s.RegisterKey(newKey)
 
 	assert.Len(t, s.Keys(), initialKeyCount+1)
-	assert.Equal(t, defaultValue, s.GetInt("new_key"))
+	assert.Equal(t, 999, s.GetInt(newKey))
 }
 
 func TestService_Save(t *testing.T) {
@@ -108,8 +110,10 @@ func TestService_Save(t *testing.T) {
 		configPath := filepath.Join(tempDir, "preferences.json")
 		s := NewService(opts.PreferencesOptions{FileType: "json"})
 
-		s.SetString("user_name", "test-user")
-		s.SetInt("login_attempts", 5)
+		userNameKey := preferences.Key{ID: "user_name"}
+		loginAttemptsKey := preferences.Key{ID: "login_attempts"}
+		s.SetString(userNameKey, "test-user")
+		s.SetInt(loginAttemptsKey, 5)
 
 		err := s.Save()
 		require.NoError(t, err)
@@ -131,7 +135,7 @@ func TestService_Concurrency(t *testing.T) {
 	for i := 0; i < numGoroutines; i++ {
 		go func(n int) {
 			defer wg.Done()
-			key := fmt.Sprintf("key-%d", n)
+			key := preferences.Key{ID: fmt.Sprintf("key-%d", n)}
 			value := fmt.Sprintf("value-%d", n)
 
 			s.Set(key, value)

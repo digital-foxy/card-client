@@ -9,7 +9,7 @@ import (
 	"github.com/elliotchance/orderedmap/v3"
 	"github.com/google/uuid"
 	"github.com/jaevor/go-nanoid"
-	"github.com/r3dpixel/card-client/core/operation"
+	"github.com/r3dpixel/card-client/operation"
 	"github.com/r3dpixel/toolkit/timestamp"
 	"github.com/r3dpixel/toolkit/trace"
 )

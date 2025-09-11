@@ -4,10 +4,12 @@ go 1.25
 
 require (
 	entgo.io/ent v0.14.5
+	github.com/dgraph-io/badger/v4 v4.8.0
 	github.com/elliotchance/orderedmap/v3 v3.1.0
 	github.com/google/uuid v1.6.0
 	github.com/jaevor/go-nanoid v1.4.0
 	github.com/mattn/go-sqlite3 v1.14.32
+	github.com/objectbox/objectbox-go v1.9.0
 	github.com/pkg/errors v0.9.1
 	github.com/r3dpixel/card-fetcher v0.6.13
 	github.com/r3dpixel/card-parser v0.6.13
@@ -36,6 +38,7 @@ require (
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.0 // indirect
+	github.com/google/flatbuffers v25.2.10+incompatible // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.24.0 // indirect
@@ -50,6 +53,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/ncruces/go-strftime v0.1.9 // indirect
+	github.com/objectbox/objectbox-generator/v4 v4.0.0 // indirect
 	github.com/pdfcpu/pdfcpu v0.11.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
