@@ -9,9 +9,9 @@ require (
 	github.com/jaevor/go-nanoid v1.4.0
 	github.com/mattn/go-sqlite3 v1.14.32
 	github.com/pkg/errors v0.9.1
-	github.com/r3dpixel/card-fetcher v0.6.12
-	github.com/r3dpixel/card-parser v0.6.12
-	github.com/r3dpixel/toolkit v0.6.12
+	github.com/r3dpixel/card-fetcher v0.6.13
+	github.com/r3dpixel/card-parser v0.6.13
+	github.com/r3dpixel/toolkit v0.6.13
 	github.com/rs/zerolog v1.34.0
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.11.1
