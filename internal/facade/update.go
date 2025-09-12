@@ -31,7 +31,11 @@ func (s *Service) UpdateCards(force bool, cardIDs ...scheme.CardID) (operation.I
 			updateStatus, err := s.updateSingleCard(handle.Context(), cardID, handle.TimeStarted(), force)
 			s.updateRequestCache.Push(cardID, handle.ID())
 			if err != nil {
-				log.Error().Err(err)
+				log.Error().Err(err).
+					Str(trace.SERVICE, "facade").
+					Str(trace.ACTIVITY, "update-cards").
+					Str("cardID", cardID.String()).
+					Msg("Failed to update card")
 			}
 			_ = handle.Mutate(func(report *operation.UpdateReport) {
 				report.Progress++
