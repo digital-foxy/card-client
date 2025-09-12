@@ -9,9 +9,9 @@ require (
 	github.com/jaevor/go-nanoid v1.4.0
 	github.com/mattn/go-sqlite3 v1.14.32
 	github.com/pkg/errors v0.9.1
-	github.com/r3dpixel/card-fetcher v0.6.11
-	github.com/r3dpixel/card-parser v0.6.11
-	github.com/r3dpixel/toolkit v0.6.11
+	github.com/r3dpixel/card-fetcher v0.6.12
+	github.com/r3dpixel/card-parser v0.6.12
+	github.com/r3dpixel/toolkit v0.6.12
 	github.com/rs/zerolog v1.34.0
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.11.1
@@ -77,7 +77,7 @@ require (
 	go.uber.org/mock v0.6.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.42.0 // indirect
-	golang.org/x/exp v0.0.0-20250819193227-8b4c13bb791b // indirect
+	golang.org/x/exp v0.0.0-20250911091902-df9299821621 // indirect
 	golang.org/x/image v0.31.0 // indirect
 	golang.org/x/mod v0.28.0 // indirect
 	golang.org/x/net v0.44.0 // indirect
