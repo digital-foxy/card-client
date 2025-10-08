@@ -53,17 +53,17 @@ type SortFilter struct {
 func GetFilterControls() FieldControls {
 	return FieldControls{
 		TextFields: []FieldControl{
-			{FieldCardName, "Card Name"},
-			{FieldCardCreator, "Creator"},
-			{FieldCardCharacterName, "Name"},
+			{FieldRecordTitle, "Card Name"},
+			{FieldRecordCreatorID, "Creator"},
+			{FieldRecordName, "Name"},
 		},
 		SortableFields: []FieldControl{
-			{FieldCardUpdateTime, "UpdateInfoSyncData Time"},
-			{FieldCardCreateTime, "Create Time"},
-			{FieldCardImportTime, "Import Time"},
+			{FieldRecordUpdateTime, "Update Time"},
+			{FieldRecordCreateTime, "Create Time"},
+			{FieldRecordImportTime, "Import Time"},
 		},
 		BooleanFields: []FieldControl{
-			{FieldCardFavorite, "Favorite"},
+			{FieldRecordFavorite, "Favorite"},
 		},
 	}
 }

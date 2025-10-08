@@ -3,7 +3,6 @@ package facade
 import (
 	"context"
 
-	"github.com/r3dpixel/card-client/services/scheme"
 	"github.com/r3dpixel/toolkit/timestamp"
 )
 

@@ -1,11 +1,11 @@
 package mutracker
 
 import (
+	"math/rand"
 	"sync"
 	"testing"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/r3dpixel/card-client/store/resource"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -20,7 +20,7 @@ func TestNewService(t *testing.T) {
 
 func TestService_SingleItemLifecycle(t *testing.T) {
 	s := NewService()
-	rid := resource.RID(uuid.NewString())
+	rid := resource.RID(rand.Int())
 
 	assert.False(t, s.IsItemLocked(rid))
 	assert.Empty(t, s.LockedItems())
@@ -37,7 +37,7 @@ func TestService_SingleItemLifecycle(t *testing.T) {
 func TestService_EdgeCases(t *testing.T) {
 	t.Run("Unlock non-existent item", func(t *testing.T) {
 		s := NewService()
-		rid := resource.RID(uuid.NewString())
+		rid := resource.RID(rand.Int())
 		assert.NotPanics(t, func() {
 			s.UnlockItem(rid)
 		})
@@ -45,7 +45,7 @@ func TestService_EdgeCases(t *testing.T) {
 
 	t.Run("Unlock already unlocked item", func(t *testing.T) {
 		s := NewService()
-		rid := resource.RID(uuid.NewString())
+		rid := resource.RID(rand.Int())
 		s.LockItem(rid)
 		s.UnlockItem(rid)
 		assert.NotPanics(t, func() {
@@ -55,14 +55,14 @@ func TestService_EdgeCases(t *testing.T) {
 
 	t.Run("IsItemLocked for non-existent item", func(t *testing.T) {
 		s := NewService()
-		rid := resource.RID(uuid.NewString())
+		rid := resource.RID(rand.Int())
 		assert.False(t, s.IsItemLocked(rid))
 	})
 }
 
 func TestService_LockedItems(t *testing.T) {
 	s := NewService()
-	card1, card2, card3 := resource.RID(uuid.NewString()), resource.RID(uuid.NewString()), resource.RID(uuid.NewString())
+	card1, card2, card3 := resource.RID(rand.Int()), resource.RID(rand.Int()), resource.RID(rand.Int())
 
 	assert.Empty(t, s.LockedItems())
 
@@ -82,7 +82,7 @@ func TestService_LockedItems(t *testing.T) {
 
 func TestService_Concurrency_LockDifferentItems(t *testing.T) {
 	s := NewService()
-	card1, card2 := resource.RID(uuid.NewString()), resource.RID(uuid.NewString())
+	card1, card2 := resource.RID(rand.Int()), resource.RID(rand.Int())
 	var wg sync.WaitGroup
 
 	wg.Add(2)
@@ -103,7 +103,7 @@ func TestService_Concurrency_LockDifferentItems(t *testing.T) {
 
 func TestService_Concurrency_RaceToCreateSameItem(t *testing.T) {
 	s := NewService()
-	rid := resource.RID(uuid.NewString())
+	rid := resource.RID(rand.Int())
 	numGoroutines := 10
 
 	for i := 0; i < numGoroutines; i++ {
@@ -123,7 +123,7 @@ func TestService_Concurrency_RaceToCreateSameItem(t *testing.T) {
 
 func TestService_Concurrency_BlockOnSameItemLock(t *testing.T) {
 	s := NewService()
-	rid := resource.RID(uuid.NewString())
+	rid := resource.RID(rand.Int())
 
 	s.LockItem(rid)
 	require.True(t, s.IsItemLocked(rid))
@@ -157,7 +157,7 @@ func TestService_Concurrency_HeavyContention(t *testing.T) {
 	numGoroutines := 50
 	var rids []resource.RID
 	for i := 0; i < numItems; i++ {
-		rids = append(rids, resource.RID(uuid.NewString()))
+		rids = append(rids, resource.RID(rand.Int()))
 	}
 
 	var wg sync.WaitGroup

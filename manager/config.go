@@ -28,7 +28,7 @@ func DefaultConfig() opts.AppConfig {
 			FilePath: "preferences",
 			FileType: opts.YAML,
 		},
-		ClientOptions: reqx.ClientOptions{
+		ClientOptions: reqx.Options{
 			RetryCount:    4,
 			MinBackoff:    10 * time.Millisecond,
 			MaxBackoff:    500 * time.Millisecond,

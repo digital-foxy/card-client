@@ -4,9 +4,6 @@ import (
 	"context"
 	"strings"
 
-	"github.com/r3dpixel/card-client/internal/ent"
-	"github.com/r3dpixel/card-client/services/operation"
-	"github.com/r3dpixel/card-client/services/scheme"
 	"github.com/r3dpixel/card-fetcher/task"
 	"github.com/r3dpixel/toolkit/structx"
 	"github.com/r3dpixel/toolkit/symbols"

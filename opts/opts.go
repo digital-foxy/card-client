@@ -1,8 +1,7 @@
 package opts
 
 import (
-	"time"
-
+	"github.com/r3dpixel/card-client/store/record"
 	"github.com/r3dpixel/toolkit/reqx"
 )
 
@@ -10,23 +9,17 @@ type AppConfig struct {
 	StoreOptions
 	VaultOptions
 	PreferencesOptions
-	reqx.ClientOptions
+	reqx.Options
 }
 
 type StoreOptions struct {
-	DbOptions
+	record.Options
 	PngOptions
 }
 
 type PngOptions struct {
 	MaxVersions   int
 	ThumbnailSize int
-}
-
-type DbOptions struct {
-	MaxConnections  int
-	IdleConnections int
-	MaxLifetime     time.Duration
 }
 
 type VaultOptions struct {

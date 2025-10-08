@@ -4,9 +4,6 @@ import (
 	"context"
 	"path/filepath"
 
-	"github.com/r3dpixel/card-client/services/operation"
-	"github.com/r3dpixel/card-client/services/preferences"
-	"github.com/r3dpixel/card-client/services/scheme"
 	"github.com/r3dpixel/card-parser/png"
 	"github.com/r3dpixel/toolkit/filex"
 	"github.com/r3dpixel/toolkit/trace"

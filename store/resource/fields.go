@@ -1,29 +1,38 @@
 package resource
 
-type Field string
+type Field = string
 
 const (
-	ContainerRecords             string = "records"
-	FieldCardID                  Field  = "id"
-	FieldBatchOrder              Field  = "batch_order"
-	FieldCardSource              Field  = "source"
-	FieldCardURL                 Field  = "card_url"
-	FieldDirectURL               Field  = "direct_url"
-	FieldCardName                Field  = "card_name"
-	FieldCardCharacterName       Field  = "character_name"
-	FieldCardPlatformID          Field  = "platform_id"
-	FieldCardCharacterID         Field  = "character_id"
-	FieldCardCreator             Field  = "creator"
-	FieldCardTagline             Field  = "tagline"
-	FieldCardCreateTime          Field  = "create_time"
-	FieldCardUpdateTime          Field  = "update_time"
-	FieldCardBookUpdateTime      Field  = "book_update_time"
-	FieldCardCheckTime           Field  = "check_time"
-	FieldCardImportTime          Field  = "import_time"
-	FieldCardExportTime          Field  = "export_time"
-	FieldCardLastExportedVersion Field  = "last_exported_version"
-	FieldCardFavorite            Field  = "favorite"
-	FieldCardLastUpdateStatus    Field  = "last_update_status"
+	ContainerRecords           string = "records"
+	FieldRecordID              Field  = "id"
+	FieldRecordImportTime      Field  = "import_time"
+	FieldRecordImportIndex     Field  = "import_index"
+	FieldRecordSource          Field  = "source"
+	FieldRecordNormalizedURL   Field  = "normalized_url"
+	FieldRecordDirectURL       Field  = "direct_url"
+	FieldRecordPlatformID      Field  = "platform_id"
+	FieldRecordCharacterID     Field  = "character_id"
+	FieldRecordName            Field  = "name"
+	FieldRecordTitle           Field  = "title"
+	FieldRecordCreatorID       Field  = "creator_id"
+	FieldRecordTagline         Field  = "tagline"
+	FieldRecordCreateTime      Field  = "create_time"
+	FieldRecordUpdateTime      Field  = "update_time"
+	FieldRecordBookUpdateTime  Field  = "book_update_time"
+	FieldRecordSyncTime        Field  = "sync_time"
+	FieldRecordSyncStatus      Field  = "sync_status"
+	FieldRecordExportTime      Field  = "export_time"
+	FieldRecordExportedVersion Field  = "exported_version"
+	FieldRecordFavorite        Field  = "favorite"
+)
+
+const (
+	ContainerCreators      string = "creators"
+	FieldCreatorID         Field  = "id"
+	FieldCreatorNickname   Field  = "nickname"
+	FieldCreatorUsername   Field  = "username"
+	FieldCreatorPlatformID Field  = "platform_id"
+	FieldCreatorSource     Field  = "source"
 )
 
 const (

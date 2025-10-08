@@ -2,8 +2,6 @@ package facade
 
 import (
 	"context"
-
-	"github.com/r3dpixel/card-client/services/scheme"
 )
 
 func (s *Service) ToggleFavorite(cardID scheme.CardID) error {

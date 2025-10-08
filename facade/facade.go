@@ -1,9 +1,6 @@
 package facade
 
 import (
-	"github.com/r3dpixel/card-client/serv/filter"
-	"github.com/r3dpixel/card-client/serv/operation"
-	"github.com/r3dpixel/card-client/serv/scheme"
 	"github.com/r3dpixel/card-fetcher/router"
 	"github.com/r3dpixel/card-fetcher/source"
 	"github.com/r3dpixel/card-parser/png"

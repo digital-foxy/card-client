@@ -4,19 +4,19 @@ import (
 	"slices"
 	"sync"
 
-	"github.com/r3dpixel/card-client/services/operation"
-	"github.com/r3dpixel/card-client/services/scheme"
+	"github.com/r3dpixel/card-client/operation"
+	"github.com/r3dpixel/card-client/store/resource"
 )
 
 type RequestCache struct {
 	mu           sync.Mutex
-	cardIDs      []scheme.CardID
+	rids         []resource.RID
 	operationIDs []operation.ID
 }
 
 func NewRequestCache(initialCapacity int) *RequestCache {
 	return &RequestCache{
-		cardIDs:      make([]scheme.CardID, 0, initialCapacity),
+		rids:         make([]resource.RID, 0, initialCapacity),
 		operationIDs: make([]operation.ID, 0, initialCapacity),
 	}
 }
@@ -24,28 +24,28 @@ func NewRequestCache(initialCapacity int) *RequestCache {
 func (c *RequestCache) HasRequests() bool {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	return len(c.cardIDs) > 0
+	return len(c.rids) > 0
 }
 
-func (c *RequestCache) Push(cardID scheme.CardID, operationID operation.ID) {
+func (c *RequestCache) Push(rid resource.RID, operationID operation.ID) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	c.cardIDs = append(c.cardIDs, cardID)
+	c.rids = append(c.rids, rid)
 	c.operationIDs = append(c.operationIDs, operationID)
 }
 
-func (c *RequestCache) Flush() ([]scheme.CardID, []operation.ID) {
+func (c *RequestCache) Flush() ([]resource.RID, []operation.ID) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	if len(c.cardIDs) == 0 {
+	if len(c.rids) == 0 {
 		return nil, nil
 	}
 
-	flushedCardIDs := slices.Clone(c.cardIDs)
+	flushedCardIDs := slices.Clone(c.rids)
 	flushedOperationIDs := slices.Clone(c.operationIDs)
 
-	c.cardIDs = c.cardIDs[:0]
+	c.rids = c.rids[:0]
 	c.operationIDs = c.operationIDs[:0]
 
 	return flushedCardIDs, flushedOperationIDs

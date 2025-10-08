@@ -3,12 +3,6 @@ package facade
 import (
 	"sync"
 
-	"github.com/r3dpixel/card-client/internal/cache"
-	"github.com/r3dpixel/card-client/services/loader"
-	"github.com/r3dpixel/card-client/services/operation"
-	"github.com/r3dpixel/card-client/services/preferences"
-	"github.com/r3dpixel/card-client/services/store"
-	"github.com/r3dpixel/card-client/services/tracker"
 	"github.com/r3dpixel/card-fetcher/router"
 	"github.com/r3dpixel/card-fetcher/source"
 	"github.com/r3dpixel/toolkit/trace"

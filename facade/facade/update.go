@@ -3,8 +3,6 @@ package facade
 import (
 	"context"
 
-	"github.com/r3dpixel/card-client/services/operation"
-	"github.com/r3dpixel/card-client/services/scheme"
 	"github.com/r3dpixel/card-fetcher/task"
 	"github.com/r3dpixel/toolkit/timestamp"
 	"github.com/r3dpixel/toolkit/trace"
@@ -59,7 +57,7 @@ func (s *Service) updateSingleCard(ctx context.Context, cardID scheme.CardID, ch
 	defer s.trackerService.UnlockItem(cardID)
 	miniHeader, err := s.storeService.FindMiniHeader(ctx, cardID)
 	if err != nil {
-		return scheme.UpdateFailed, updateErr("Could not find mini header for card ResourceID", cardID, miniHeader.CardURL, err)
+		return scheme.UpdateFailed, updateErr("Could not find mini header for card ID", cardID, miniHeader.CardURL, err)
 	}
 
 	fetchTask, ok := s.routerService.TaskOf(miniHeader.CardURL)
@@ -104,7 +102,7 @@ func (s *Service) executeFullUpdate(
 	}
 
 	if _, err = s.storeService.UpdateCard(ctx, cardID, metadata, card, checkTime); err != nil {
-		return updateErr("Could not save card for ResourceID", cardID, metadata.CardURL, err)
+		return updateErr("Could not save card for ID", cardID, metadata.CardURL, err)
 	}
 
 	return nil

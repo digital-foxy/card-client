@@ -226,7 +226,7 @@ func buildApplier[T interface{}](
 			return trace.Err().
 				Field(trace.SERVICE, "operation").
 				Field(trace.ID, string(id)).
-				Msg("Operation with ResourceID not found")
+				Msg("Operation with ID not found")
 		}
 
 		entry.mu.Lock()

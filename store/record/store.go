@@ -4,29 +4,35 @@ import (
 	"context"
 
 	"github.com/r3dpixel/card-client/store/resource"
+	"github.com/r3dpixel/card-fetcher/models"
 )
 
-type Transaction interface {
-	Commit() error
-	Rollback() error
-	Context() context.Context
+type Store interface {
+	TxStore
+
+	WithContext(ctx context.Context) Store
+	WithTx(fn func(TxStore) error) error
+	Close() error
 }
 
-type Store interface {
-	Count(ctx context.Context, filter resource.Filter) int
-	FindPagedRIDs(ctx context.Context, filter resource.Filter, offset int, limit int) []resource.RID
-	FindRecords(ctx context.Context, rids []resource.RID) resource.Box[resource.Record]
-	FindExportHeaders(ctx context.Context, rids []resource.RID) resource.Box[resource.ExportHeader]
-	FindURLs(ctx context.Context, normalizedURLs []string) []string
+type TxStore interface {
+	Count(filter resource.Filter) int
+	FindPagedRIDs(filter resource.Filter, offset int, limit int) []resource.RID
+	FindRecords(rids []resource.RID) resource.Box[resource.Record]
+	FindExportHeaders(rids []resource.RID) resource.Box[resource.ExportHeader]
+	FindURLs(normalizedURLs []string) []string
 
-	Insert(ctx context.Context, infoData *resource.InfoData, importData resource.ImportData) (*resource.Record, error)
-	UpdateInfoSyncData(ctx context.Context, rid resource.RID, infoData *resource.InfoData, syncData resource.SyncData) (*resource.Record, error)
-	UpdateSyncData(ctx context.Context, rid resource.RID, syncData resource.SyncData) error
-	UpdateExportData(ctx context.Context, rid resource.RID, exportData resource.ExportData) error
+	InsertRecord(metadata *models.Metadata, importData resource.ImportData) error
+	UpdateRecord(rid resource.RID, metadata *models.Metadata, syncData resource.SyncData) error
+	UpdateSyncData(rid resource.RID, syncData resource.SyncData) error
+	UpdateExportData(rid resource.RID, exportData resource.ExportData) error
+	UpdateFavoriteData(rids []resource.RID, favorite bool) error
+	ToggleFavorite(rid resource.RID) error
+}
 
-	UpdateFavoriteData(ctx context.Context, rids []resource.RID, favorite bool) error
-	ToggleFavorite(ctx context.Context, rid resource.RID) error
+func NewStore(opts any) Store {
+	switch opts.(type) {
 
-	BeginTx(ctx context.Context) (Transaction, error)
-	WithTx(ctx context.Context, fn func(txStore Store) error) error
+	}
+	return nil
 }
