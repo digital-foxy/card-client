@@ -5,34 +5,39 @@ import (
 
 	"github.com/r3dpixel/card-client/store/resource"
 	"github.com/r3dpixel/card-fetcher/models"
+	"github.com/r3dpixel/toolkit/timestamp"
 )
 
-type Store interface {
-	TxStore
+type Builder interface {
+	Build(path string) (Store, error)
+}
 
-	WithContext(ctx context.Context) Store
-	WithTx(fn func(TxStore) error) error
+type Store interface {
+	CtxStore
+
+	WithContext(ctx context.Context) CtxStore
 	Close() error
 }
 
-type TxStore interface {
-	Count(filter resource.Filter) int
-	FindPagedRIDs(filter resource.Filter, offset int, limit int) []resource.RID
-	FindRecords(rids []resource.RID) resource.Box[resource.Record]
-	FindExportHeaders(rids []resource.RID) resource.Box[resource.ExportHeader]
-	FindURLs(normalizedURLs []string) []string
-
-	InsertRecord(metadata *models.Metadata, importData resource.ImportData) error
-	UpdateRecord(rid resource.RID, metadata *models.Metadata, syncData resource.SyncData) error
-	UpdateSyncData(rid resource.RID, syncData resource.SyncData) error
-	UpdateExportData(rid resource.RID, exportData resource.ExportData) error
-	UpdateFavoriteData(rids []resource.RID, favorite bool) error
-	ToggleFavorite(rid resource.RID) error
+type CtxStore interface {
+	TxStore
+	WithTx(fn func(TxStore) error) error
 }
 
-func NewStore(opts any) Store {
-	switch opts.(type) {
+type TxStore interface {
+	Count(filter resource.Filter) (int, error)
+	FindPagedRIDs(filter resource.Filter, offset int, limit int) ([]resource.RID, error)
+	FindRecord(rid resource.RID) (*resource.Record, error)
+	FindRecords(rids ...resource.RID) (resource.Box[resource.Record], error)
+	FindExportHeaders(rids ...resource.RID) (resource.Box[resource.ExportHeader], error)
+	FindURLs(normalizedURLs ...string) ([]string, error)
+	FindTagNames(tids ...resource.TID) ([]string, error)
 
-	}
-	return nil
+	InsertRecord(metadata *models.Metadata, importData resource.ImportData) (resource.RID, error)
+	UpdateRecord(rid resource.RID, metadata *models.Metadata, syncTime timestamp.Nano) error
+	UpdateSyncData(rid resource.RID, syncData resource.SyncData) error
+	UpdateExportData(rid resource.RID, exportData resource.ExportData) error
+
+	UpdateFavoriteData(favorite bool, rids ...resource.RID) error
+	ToggleFavorite(rid resource.RID) error
 }

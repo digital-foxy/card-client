@@ -10,7 +10,7 @@ type resourceMu struct {
 	locked uint32
 }
 
-func newResourceMutex() *resourceMu {
+func newResourceMu() *resourceMu {
 	return &resourceMu{}
 }
 

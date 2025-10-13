@@ -6,18 +6,18 @@ import (
 	"github.com/r3dpixel/card-client/store/resource"
 )
 
-type Service struct {
+type MuTracker struct {
 	mutex    sync.RWMutex
 	trackers map[resource.RID]*resourceMu
 }
 
-func NewService() *Service {
-	return &Service{
+func New() *MuTracker {
+	return &MuTracker{
 		trackers: make(map[resource.RID]*resourceMu),
 	}
 }
 
-func (s *Service) LockItem(rid resource.RID) {
+func (s *MuTracker) LockItem(rid resource.RID) {
 	s.mutex.RLock()
 	state, exists := s.trackers[rid]
 	s.mutex.RUnlock()
@@ -30,7 +30,7 @@ func (s *Service) LockItem(rid resource.RID) {
 	s.mutex.Lock()
 	state, exists = s.trackers[rid]
 	if !exists {
-		state = newResourceMutex()
+		state = newResourceMu()
 		s.trackers[rid] = state
 	}
 	s.mutex.Unlock()
@@ -38,7 +38,7 @@ func (s *Service) LockItem(rid resource.RID) {
 	state.lock()
 }
 
-func (s *Service) UnlockItem(rid resource.RID) {
+func (s *MuTracker) UnlockItem(rid resource.RID) {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
 
@@ -47,7 +47,7 @@ func (s *Service) UnlockItem(rid resource.RID) {
 	}
 }
 
-func (s *Service) IsItemLocked(rid resource.RID) bool {
+func (s *MuTracker) IsItemLocked(rid resource.RID) bool {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
 
@@ -59,7 +59,7 @@ func (s *Service) IsItemLocked(rid resource.RID) bool {
 	return state.isLocked()
 }
 
-func (s *Service) LockedItems() []resource.RID {
+func (s *MuTracker) LockedItems() []resource.RID {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
 

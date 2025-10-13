@@ -5,8 +5,8 @@ import (
 )
 
 type Service interface {
-	Lock(rid resource.RID) error
-	Unlock(rid resource.RID)
-	IsLocked(rid resource.RID) bool
-	Locked() []resource.RID
+	LockItem(rid resource.RID)
+	UnlockItem(rid resource.RID)
+	IsItemLocked(rid resource.RID) bool
+	LockedItems() []resource.RID
 }

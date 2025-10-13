@@ -1,6 +1,7 @@
 package operation
 
 import (
+	"github.com/r3dpixel/card-client/library"
 	"github.com/r3dpixel/card-client/store/resource"
 	"github.com/r3dpixel/toolkit/timestamp"
 )
@@ -28,7 +29,7 @@ type Details struct {
 	Status      Status
 	TimeStarted timestamp.Nano
 	TimeEnded   timestamp.Nano
-	VaultName   string
+	VaultName   library.VaultName
 	Disposable  bool
 }
 

@@ -9,6 +9,7 @@ import (
 	"github.com/elliotchance/orderedmap/v3"
 	"github.com/google/uuid"
 	"github.com/jaevor/go-nanoid"
+	"github.com/r3dpixel/card-client/library"
 	"github.com/r3dpixel/card-client/operation"
 	"github.com/r3dpixel/toolkit/timestamp"
 	"github.com/r3dpixel/toolkit/trace"
@@ -47,7 +48,7 @@ func NewRegistry(idGenerator operation.IdGenerator) *Registry {
 	}
 }
 
-func register[T any](r *Registry, vault string, timeStarted timestamp.Nano, action operation.Action, report T) (operation.ID, context.Context) {
+func register[T any](r *Registry, vault library.VaultName, timeStarted timestamp.Nano, action operation.Action, report T) (operation.ID, context.Context) {
 	r.activeOps.Add(1)
 	id := r.newID()
 
@@ -76,57 +77,57 @@ func register[T any](r *Registry, vault string, timeStarted timestamp.Nano, acti
 
 }
 
-func (r *Registry) RegisterImport(vault string) operation.Handle[*operation.ImportReport] {
+func (r *Registry) RegisterImport(vault library.VaultName) operation.Handle[*operation.ImportReport] {
 	timeStarted := timestamp.Now[timestamp.Nano]()
 	id, ctx := register(r, vault, timeStarted, operation.Import, &operation.ImportReport{})
 	return operation.NewHandle(id, ctx, timeStarted, buildApplier[*operation.ImportReport](r, id), buildCompleter(r, id))
 }
 
-func (r *Registry) RegisterUpdate(vault string) operation.Handle[*operation.UpdateReport] {
+func (r *Registry) RegisterUpdate(vault library.VaultName) operation.Handle[*operation.UpdateReport] {
 	timeStarted := timestamp.Now[timestamp.Nano]()
 	id, ctx := register(r, vault, timeStarted, operation.Update, &operation.UpdateReport{})
 	return operation.NewHandle(id, ctx, timeStarted, buildApplier[*operation.UpdateReport](r, id), buildCompleter(r, id))
 }
 
-func (r *Registry) RegisterExport(vault string) operation.Handle[*operation.ExportReport] {
+func (r *Registry) RegisterExport(vault library.VaultName) operation.Handle[*operation.ExportReport] {
 	timeStarted := timestamp.Now[timestamp.Nano]()
 	id, ctx := register(r, vault, timeStarted, operation.Export, &operation.ExportReport{})
 	return operation.NewHandle(id, ctx, timeStarted, buildApplier[*operation.ExportReport](r, id), buildCompleter(r, id))
 
 }
 
-func (r *Registry) RegisterDelete(vault string) operation.Handle[*operation.DeleteReport] {
+func (r *Registry) RegisterDelete(vault library.VaultName) operation.Handle[*operation.DeleteReport] {
 	timeStarted := timestamp.Now[timestamp.Nano]()
 	id, ctx := register(r, vault, timeStarted, operation.Delete, &operation.DeleteReport{})
 	return operation.NewHandle(id, ctx, timeStarted, buildApplier[*operation.DeleteReport](r, id), buildCompleter(r, id))
 }
 
-func (r *Registry) Complete(id operation.ID) error {
-	return r.end(id, operation.Completed)
+func (r *Registry) Complete(opID operation.ID) error {
+	return r.end(opID, operation.Completed)
 }
 
-func (r *Registry) Cancel(id operation.ID) error {
-	return r.end(id, operation.Cancelled)
+func (r *Registry) Cancel(opID operation.ID) error {
+	return r.end(opID, operation.Cancelled)
 }
 
-func (r *Registry) end(id operation.ID, finalStatus operation.Status) error {
+func (r *Registry) end(opID operation.ID, finalStatus operation.Status) error {
 	r.mapMutex.RLock()
-	entry, ok := r.operations.Get(id)
+	entry, ok := r.operations.Get(opID)
 	r.mapMutex.RUnlock()
 
 	if !ok {
-		return fmt.Errorf("Operation %q not found to complete", id)
+		return fmt.Errorf("Operation %q not found to complete", opID)
 	}
 
 	entry.mu.Lock()
 	defer entry.mu.Unlock()
 
 	if entry.report == nil {
-		return fmt.Errorf("Operation report %q is missing", id)
+		return fmt.Errorf("Operation report %q is missing", opID)
 	}
 
 	if entry.details.Status != operation.Ongoing {
-		return fmt.Errorf("Operation %q has already been terminated: %s", id, entry.details.Status)
+		return fmt.Errorf("Operation %q has already been terminated: %s", opID, entry.details.Status)
 	}
 
 	if finalStatus == operation.Cancelled {

@@ -1,10 +1,16 @@
 package resource
 
 import (
+	"strconv"
+
 	"github.com/r3dpixel/toolkit/stringsx"
 )
 
 type RID uint64
+
+func (r RID) String() string {
+	return strconv.FormatUint(uint64(r), 10)
+}
 
 var EmptyRID RID = RID(0)
 

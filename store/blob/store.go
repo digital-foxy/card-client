@@ -9,25 +9,43 @@ import (
 	"github.com/r3dpixel/toolkit/timestamp"
 )
 
-type Store interface {
-	ReadStore
-	WriteStore
+type Builder interface {
+	Build(path string) (Store, error)
+}
 
-	WithContext(ctx context.Context) Store
-	WithReadTx(fn func(store ReadStore) error) error
-	WithWriteTx(fn func(store WriteStore) error) error
-	WithReadWriteTx(fn func(Store) error) error
+type Store interface {
+	CtxStore
+
+	WithContext(ctx context.Context) CtxStore
 	Close() error
 }
 
-type ReadStore interface {
-	Get(rid resource.RID, version timestamp.Nano) (*png.RawCard, error)
-	Thumbnail(rid resource.RID) (image.Image, error)
-	Versions(rid resource.RID) []timestamp.Nano
+type CtxStore interface {
+	TxStore
+
+	WithReadTx(fn func(TxReadStore) error) error
+	WithWriteTx(fn func(TxWriteStore) error) error
+	WithTx(fn func(TxStore) error) error
 }
 
-type WriteStore interface {
+type TxStore interface {
+	TxReadStore
+	TxWriteStore
+
 	Put(rid resource.RID, version timestamp.Nano, rawCard *png.RawCard) error
+}
+
+type TxReadStore interface {
+	Get(rid resource.RID, version timestamp.Nano) (*png.RawCard, error)
+	GetBytes(rid resource.RID, version timestamp.Nano) ([]byte, error)
+	Thumbnail(rid resource.RID) (image.Image, error)
+	ThumbnailBytes(rid resource.RID) ([]byte, error)
+	Versions(rid resource.RID) []timestamp.Nano
+	VersionExists(rid resource.RID, version timestamp.Nano) (bool, error)
+}
+
+type TxWriteStore interface {
 	DeleteVersion(rid resource.RID, version timestamp.Nano) error
+	DeleteVersions(rid resource.RID, lower timestamp.Nano, upper timestamp.Nano) error
 	Delete(rid resource.RID) error
 }

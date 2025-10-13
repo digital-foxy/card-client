@@ -51,6 +51,10 @@ type InfoData struct {
 	Tags           []Tag
 }
 
+func (r *InfoData) LatestUpdateTime() timestamp.Nano {
+	return max(r.UpdateTime, r.BookUpdateTime)
+}
+
 type SyncHeader struct {
 	ID RID
 	SyncData

@@ -2,27 +2,37 @@ package catalog
 
 import (
 	"context"
+	"image"
 
 	"github.com/r3dpixel/card-client/store/resource"
+	"github.com/r3dpixel/card-fetcher/models"
 	"github.com/r3dpixel/card-parser/png"
+	"github.com/r3dpixel/toolkit/timestamp"
 )
 
 type Service interface {
-	Label() string
+	Count(filter resource.Filter) (int, error)
+	FindPagedRIDs(filter resource.Filter, offset int, limit int) ([]resource.RID, error)
+	FindRecords(rids ...resource.RID) (resource.Box[resource.Record], error)
+	FindRecord(rid resource.RID) (*resource.Record, error)
+	FindExportHeaders(rids ...resource.RID) (resource.Box[resource.ExportHeader], error)
+	FindURLs(normalizedURLs ...string) ([]string, error)
 
-	Count(ctx context.Context, filter resource.Filter) int
-	FindPagedRIDs(ctx context.Context, filter resource.Filter, offset int, limit int) []resource.RID
-	FindRecords(ctx context.Context, rids []resource.RID) resource.Box[resource.Record]
-	FindExportHeaders(ctx context.Context, rids []resource.RID) resource.Box[resource.ExportHeader]
-	FindURLs(ctx context.Context, normalizedURLs []string) []string
+	InsertCard(metadata *models.Metadata, characterCard *png.CharacterCard, importData resource.ImportData) error
+	UpdateCard(rid resource.RID, metadata *models.Metadata, characterCard *png.CharacterCard, syncTime timestamp.Nano) error
+	UpdateSyncData(rid resource.RID, syncData resource.SyncData) error
+	UpdateExportData(rid resource.RID, exportData resource.ExportData) error
 
-	InsertCard(ctx context.Context, infoData *resource.InfoData, characterCard *png.CharacterCard, importData resource.ImportData) (*resource.Record, error)
-	UpdateCard(ctx context.Context, rid resource.RID, infoData *resource.InfoData, characterCard *png.CharacterCard, syncTime resource.SyncData) (*resource.Record, error)
-	UpdateSyncData(ctx context.Context, rid resource.RID, syncData resource.SyncData) error
-	UpdateExportData(ctx context.Context, rid resource.RID, exportData resource.ExportData) error
+	UpdateFavoriteData(favorite bool, rids ...resource.RID) error
+	ToggleFavorite(rid resource.RID) error
 
-	UpdateFavoriteData(ctx context.Context, rids []resource.RID, favorite bool) error
-	ToggleFavorite(ctx context.Context, rid resource.RID) error
+	GetRawCard(rid resource.RID, version timestamp.Nano) (*png.RawCard, error)
+	GetCardBytes(rid resource.RID, version timestamp.Nano) ([]byte, error)
+	Thumbnail(rid resource.RID) (image.Image, error)
+	ThumbnailBytes(rid resource.RID) ([]byte, error)
+	CardVersions(rid resource.RID) []timestamp.Nano
+	CardVersionExists(rid resource.RID, version timestamp.Nano) (bool, error)
 
+	WithContext(ctx context.Context) Service
 	Close() error
 }

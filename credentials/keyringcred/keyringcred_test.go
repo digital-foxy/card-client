@@ -26,6 +26,11 @@ type MockManager struct {
 	mock.Mock
 }
 
+func (m *MockManager) CredLabel() string {
+	args := m.Called()
+	return args.String(0)
+}
+
 func (m *MockManager) Get() (cred.Identity, error) {
 	args := m.Called()
 	return args.Get(0).(cred.Identity), args.Error(1)

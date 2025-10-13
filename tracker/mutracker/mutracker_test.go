@@ -12,14 +12,14 @@ import (
 )
 
 func TestNewService(t *testing.T) {
-	s := NewService()
+	s := New()
 	require.NotNil(t, s)
 	assert.NotNil(t, s.trackers)
 	assert.Empty(t, s.trackers)
 }
 
 func TestService_SingleItemLifecycle(t *testing.T) {
-	s := NewService()
+	s := New()
 	rid := resource.RID(rand.Int())
 
 	assert.False(t, s.IsItemLocked(rid))
@@ -36,7 +36,7 @@ func TestService_SingleItemLifecycle(t *testing.T) {
 
 func TestService_EdgeCases(t *testing.T) {
 	t.Run("Unlock non-existent item", func(t *testing.T) {
-		s := NewService()
+		s := New()
 		rid := resource.RID(rand.Int())
 		assert.NotPanics(t, func() {
 			s.UnlockItem(rid)
@@ -44,7 +44,7 @@ func TestService_EdgeCases(t *testing.T) {
 	})
 
 	t.Run("Unlock already unlocked item", func(t *testing.T) {
-		s := NewService()
+		s := New()
 		rid := resource.RID(rand.Int())
 		s.LockItem(rid)
 		s.UnlockItem(rid)
@@ -54,14 +54,14 @@ func TestService_EdgeCases(t *testing.T) {
 	})
 
 	t.Run("IsItemLocked for non-existent item", func(t *testing.T) {
-		s := NewService()
+		s := New()
 		rid := resource.RID(rand.Int())
 		assert.False(t, s.IsItemLocked(rid))
 	})
 }
 
 func TestService_LockedItems(t *testing.T) {
-	s := NewService()
+	s := New()
 	card1, card2, card3 := resource.RID(rand.Int()), resource.RID(rand.Int()), resource.RID(rand.Int())
 
 	assert.Empty(t, s.LockedItems())
@@ -81,7 +81,7 @@ func TestService_LockedItems(t *testing.T) {
 }
 
 func TestService_Concurrency_LockDifferentItems(t *testing.T) {
-	s := NewService()
+	s := New()
 	card1, card2 := resource.RID(rand.Int()), resource.RID(rand.Int())
 	var wg sync.WaitGroup
 
@@ -102,7 +102,7 @@ func TestService_Concurrency_LockDifferentItems(t *testing.T) {
 }
 
 func TestService_Concurrency_RaceToCreateSameItem(t *testing.T) {
-	s := NewService()
+	s := New()
 	rid := resource.RID(rand.Int())
 	numGoroutines := 10
 
@@ -122,7 +122,7 @@ func TestService_Concurrency_RaceToCreateSameItem(t *testing.T) {
 }
 
 func TestService_Concurrency_BlockOnSameItemLock(t *testing.T) {
-	s := NewService()
+	s := New()
 	rid := resource.RID(rand.Int())
 
 	s.LockItem(rid)
@@ -152,7 +152,7 @@ func TestService_Concurrency_BlockOnSameItemLock(t *testing.T) {
 }
 
 func TestService_Concurrency_HeavyContention(t *testing.T) {
-	s := NewService()
+	s := New()
 	numItems := 5
 	numGoroutines := 50
 	var rids []resource.RID

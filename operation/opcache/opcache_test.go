@@ -7,12 +7,13 @@ import (
 	"testing"
 	"time"
 
+	"github.com/r3dpixel/card-client/library"
 	"github.com/r3dpixel/card-client/operation"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
-const testVault = "vault"
+const testVault = library.VaultName("vault")
 
 func newTestRegistry() (*Registry, *int) {
 	callCount := 0

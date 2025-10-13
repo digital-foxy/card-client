@@ -10,14 +10,14 @@ import (
 )
 
 func TestTracker_InitialState(t *testing.T) {
-	tr := newResourceMutex()
+	tr := newResourceMu()
 
-	assert.NotNil(t, tr, "newResourceMutex() should not return nil")
+	assert.NotNil(t, tr, "newResourceMu() should not return nil")
 	assert.False(t, tr.isLocked(), "A new resourceMu should be in an unlocked state")
 }
 
 func TestTracker_LockUnlockCycle(t *testing.T) {
-	tr := newResourceMutex()
+	tr := newResourceMu()
 
 	tr.lock()
 	assert.True(t, tr.isLocked(), "isLocked() should return true after lock()")
@@ -27,7 +27,7 @@ func TestTracker_LockUnlockCycle(t *testing.T) {
 }
 
 func TestTracker_MutexBlocks(t *testing.T) {
-	tr := newResourceMutex()
+	tr := newResourceMu()
 	var wg sync.WaitGroup
 
 	wg.Add(1)
