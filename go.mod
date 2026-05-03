@@ -5,8 +5,8 @@ go 1.26.0
 require (
 	entgo.io/ent v0.14.6
 	github.com/cockroachdb/pebble/v2 v2.1.4
-	github.com/digital-foxy/card-fetcher v1.0.75
-	github.com/digital-foxy/card-parser v1.0.75
+	github.com/digital-foxy/card-fetcher v1.0.76
+	github.com/digital-foxy/card-parser v1.0.77
 	github.com/digital-foxy/toolkit v1.0.75
 	github.com/elliotchance/orderedmap/v3 v3.1.0
 	github.com/google/uuid v1.6.0
@@ -50,7 +50,6 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/digital-foxy/chromex v1.0.75 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
-	github.com/gen2brain/jpegli v0.3.4 // indirect
 	github.com/getsentry/sentry-go v0.44.1 // indirect
 	github.com/go-json-experiment/json v0.0.0-20260214004413-d219187c3433 // indirect
 	github.com/go-openapi/inflect v0.21.5 // indirect
@@ -82,6 +81,7 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pdfcpu/pdfcpu v0.11.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.3.0 // indirect
+	github.com/pixiv/go-libjpeg v0.0.0-20190822045933-3da21a74767d // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/client_golang v1.23.2 // indirect
@@ -99,7 +99,6 @@ require (
 	github.com/stretchr/objx v0.5.3 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/sunshineplan/pdf v1.0.8 // indirect
-	github.com/tetratelabs/wazero v1.11.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/zalando/go-keyring v0.2.8 // indirect
 	github.com/zclconf/go-cty v1.18.0 // indirect
