@@ -70,10 +70,10 @@ github.com/danieljoos/wincred v1.2.3/go.mod h1:6qqX0WNrS4RzPZ1tnroDzq9kY3fu1KwE7
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/digital-foxy/card-fetcher v1.0.76 h1:pr7ionyLOmEM5q0Jsnj5aZVuesJieN5Bqj4B7u78yd4=
-github.com/digital-foxy/card-fetcher v1.0.76/go.mod h1:TRhjOVdlpo2qBC1+/ETYdKYdpre6S0fg3iMuT1qaUJg=
-github.com/digital-foxy/card-parser v1.0.77 h1:YhGUib8s6waaqyzYMA5yhN5dZmDpmcZVGEHVxD2NbpQ=
-github.com/digital-foxy/card-parser v1.0.77/go.mod h1:Kd+p5MvuPluCChtoQx8PnNo0Je6q6nbNCEeHtwthv64=
+github.com/digital-foxy/card-fetcher v1.0.77 h1:dhsle0CfRb9SDodA5E+mImYbIXDPIsmaif1SQQbHpSY=
+github.com/digital-foxy/card-fetcher v1.0.77/go.mod h1:+E87VG49W9FST1M6cFFIfk9ynoEJxCUbDQv+THNgsTQ=
+github.com/digital-foxy/card-parser v1.0.78 h1:i1KnrKZLtUXNLqsn1w+icT49RLpXVVOuaEpP7b6oIaA=
+github.com/digital-foxy/card-parser v1.0.78/go.mod h1:Kd+p5MvuPluCChtoQx8PnNo0Je6q6nbNCEeHtwthv64=
 github.com/digital-foxy/chromex v1.0.75 h1:dKKUI/N/7ewHkgdrsluJTjEJLu25txWdPxXsLaRbQiA=
 github.com/digital-foxy/chromex v1.0.75/go.mod h1:aMOVxYgS96EO7Ls/Z7Saohuedo0SmAIVCQAH5N/DEgY=
 github.com/digital-foxy/toolkit v1.0.75 h1:FmlrGooVSCvOEWOpSbZyXA3GDOQbPSVpj1vejOQSysc=

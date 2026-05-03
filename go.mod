@@ -5,8 +5,8 @@ go 1.26.0
 require (
 	entgo.io/ent v0.14.6
 	github.com/cockroachdb/pebble/v2 v2.1.4
-	github.com/digital-foxy/card-fetcher v1.0.76
-	github.com/digital-foxy/card-parser v1.0.77
+	github.com/digital-foxy/card-fetcher v1.0.77
+	github.com/digital-foxy/card-parser v1.0.78
 	github.com/digital-foxy/toolkit v1.0.75
 	github.com/elliotchance/orderedmap/v3 v3.1.0
 	github.com/google/uuid v1.6.0
